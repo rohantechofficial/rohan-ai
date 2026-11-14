@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:,">
+<title>ROHAN AI — Free AI Image & Video Generator | Create. Imagine. Generate.</title>
+<meta name="description" content="ROHAN AI turns a text prompt into an image, then into an 8–15 second video. Free plan with 2 videos a day, styles, camera moves, voiceover & subtitles in EN, Urdu & Hindi.">
+<meta property="og:title" content="ROHAN AI — Create. Imagine. Generate.">
+<meta property="og:description" content="Prompt → Image → Video (8–15s). Free to start. Styles, camera movement, templates, voiceover + subtitles in English, Urdu & Hindi.">
+<meta property="og:type" content="website">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"ROHAN AI","applicationCategory":"MultimediaApplication","operatingSystem":"Web","offers":[{"@type":"Offer","price":"0","priceCurrency":"USD","name":"Free"},{"@type":"Offer","price":"9.99","priceCurrency":"USD","name":"Premium"}],"description":"AI studio: prompt to image, image to video 8-15 seconds, script to video, templates, voiceover and subtitles."}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=Noto+Nastaliq+Urdu:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4f3ee; --surface:#ffffff; --surface2:#eceae2; --ink:#14161a; --muted:#5c6068; --line:#ddd9cc;
+  --accent:#9ecb12; --accent-ink:#2c3d02; --accent2:#0e7c66; --danger:#b3261e; --chip:#14161a;
+  --radius:14px;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#101216; --surface:#181b20; --surface2:#22262d; --ink:#f2f1ea; --muted:#a7abb3; --line:#2e333b; --chip:#f2f1ea; --accent-ink:#e4f5ae; }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;line-height:1.55}
+h1,h2,h3{font-family:Sora,Inter,sans-serif;line-height:1.15;margin:0}
+[dir="rtl"] body,[dir="rtl"]{font-family:'Noto Nastaliq Urdu',Inter,sans-serif}
+button,[role="button"],select,input,textarea{font:inherit}
+button,select{min-height:2.25rem}
+a{color:var(--accent2)}
+.wrap{max-width:1120px;margin:0 auto;padding:0 18px}
+/* top bar */
+.topbar{position:sticky;top:0;z-index:30;background:var(--bg);border-bottom:1px solid var(--line)}
+.topbar-in{display:flex;align-items:center;gap:10px;padding:10px 0;flex-wrap:wrap}
+.brand{font-family:Sora,sans-serif;font-weight:800;font-size:1.25rem;letter-spacing:.02em}
+.brand b{color:var(--accent2)}
+.tagline{color:var(--muted);font-size:.85rem}
+.spacer{flex:1}
+.seg{display:flex;background:var(--surface2);border-radius:999px;padding:3px;gap:2px}
+.seg button{border:0;background:transparent;border-radius:999px;padding:6px 14px;cursor:pointer;font-weight:600;color:var(--muted)}
+.seg button.on{background:var(--chip);color:var(--bg)}
+.planpill{border:1.5px solid var(--ink);border-radius:999px;padding:6px 14px;font-weight:700;background:var(--surface)}
+.planpill.prem{border-color:var(--accent);background:var(--accent);color:#14161a}
+/* hero */
+.hero{padding:34px 0 8px}
+.hero h1{font-size:clamp(1.9rem,5vw,3.1rem);font-weight:800;max-width:16ch}
+.hero p{color:var(--muted);max-width:62ch;font-size:1.05rem}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0 4px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:10px 14px;font-size:.9rem}
+.stat b{font-size:1.05rem}
+/* studio */
+.studio{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:18px;margin:18px 0}
+.modes{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.mode{border:1px solid var(--line);background:var(--surface2);border-radius:999px;padding:8px 16px;cursor:pointer;font-weight:600}
+.mode.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+label.fl{display:block;font-weight:600;font-size:.9rem;margin:12px 0 6px}
+textarea,input[type=text]{width:100%;border:1px solid var(--line);border-radius:12px;padding:12px;background:var(--bg);color:var(--ink)}
+textarea{min-height:84px;resize:vertical}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:7px 14px;cursor:pointer;font-weight:600;font-size:.9rem}
+.chip.on{background:var(--accent);border-color:var(--accent);color:#14161a}
+.chip.locked{opacity:.55}
+.btn{border:0;border-radius:12px;padding:12px 20px;font-weight:700;cursor:pointer;background:var(--accent);color:#14161a;min-height:2.75rem}
+.btn.dark{background:var(--ink);color:var(--bg)}
+.btn.ghost{background:transparent;border:1.5px solid var(--ink);color:var(--ink)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn.small{padding:8px 14px;min-height:2.25rem}
+select{border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--bg);color:var(--ink)}
+.hint{color:var(--muted);font-size:.88rem}
+.warn{background:#fdf3e3;border:1px solid #e8c87a;color:#5c4303;border-radius:12px;padding:10px 14px;font-size:.92rem;margin-top:10px}
+@media (prefers-color-scheme: dark){.warn{background:#2c2410;color:#f0d48a;border-color:#6b5518}}
+.stage{margin-top:16px}
+.frame{position:relative;background:#000;border-radius:16px;overflow:hidden;aspect-ratio:16/9;max-height:520px;margin:0 auto;width:100%}
+.frame.r916{aspect-ratio:9/16;max-width:340px}
+.frame.r11{aspect-ratio:1/1;max-width:460px}
+.frame canvas,.frame img.source{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.frame .empty{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#9aa0a8;text-align:center;padding:20px}
+.wm{position:absolute;right:10px;bottom:44px;background:rgba(0,0,0,.55);color:#fff;font-size:.75rem;font-weight:700;padding:4px 10px;border-radius:999px;letter-spacing:.04em}
+.subbar{position:absolute;left:0;right:0;bottom:34px;text-align:center;padding:0 16px}
+.subbar span{background:rgba(0,0,0,.65);color:#fff;padding:4px 12px;border-radius:8px;font-size:.95rem}
+.progress{position:absolute;left:0;right:0;bottom:0;height:6px;background:rgba(255,255,255,.25)}
+.progress i{display:block;height:100%;width:0;background:var(--accent)}
+.meta-chips{position:absolute;top:10px;left:10px;display:flex;gap:6px;flex-wrap:wrap}
+.meta-chips span{background:rgba(0,0,0,.55);color:#fff;font-size:.75rem;padding:4px 9px;border-radius:999px}
+.player-ctl{display:flex;gap:8px;justify-content:center;margin-top:12px;flex-wrap:wrap}
+/* templates */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px}
+.card h3{font-size:1.02rem;margin-bottom:6px}
+.card p{color:var(--muted);font-size:.92rem;margin:0 0 12px}
+section{padding:26px 0}
+section h2{font-size:1.6rem;margin-bottom:6px}
+section .lead{color:var(--muted);max-width:65ch;margin:0 0 16px}
+.price{display:flex;gap:14px;flex-wrap:wrap}
+.price .card{flex:1;min-width:250px}
+.price ul{margin:10px 0;padding-inline-start:18px}
+.price .amount{font-family:Sora,sans-serif;font-size:1.8rem;font-weight:800}
+.proj-thumb{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:10px;background:#000}
+.steps{counter-reset:st}
+.steps li{margin-bottom:8px}
+footer{border-top:1px solid var(--line);padding:22px 0 40px;color:var(--muted);font-size:.9rem}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:12px 18px;border-radius:12px;font-weight:600;z-index:50;max-width:92vw;text-align:center}
+.hidden{display:none!important}
+@media (max-width:640px){ .hero h1{font-size:1.9rem} .studio{padding:14px} }
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} }
+</style>
+</head>
+<body>
+<div class="topbar"><div class="wrap topbar-in">
+  <span class="brand">ROHAN <b>AI</b></span><span class="tagline" data-i="tagline">Create. Imagine. Generate.</span>
+  <span class="spacer"></span>
+  <div class="seg" role="group" aria-label="Language">
+    <button data-lang="en" class="on">EN</button><button data-lang="ur">اردو</button><button data-lang="hi">हिन्दी</button>
+  </div>
+  <button class="planpill" id="planPill">FREE</button>
+</div></div>
+
+<div class="wrap">
+  <div class="hero">
+    <h1 data-i="heroH">Turn words into video.</h1>
+    <p data-i="heroP">Type a prompt, ROHAN AI paints the image, then animates it into an 8–15 second video — with styles, camera movement, voiceover and subtitles. Free to start, no sign-up.</p>
+    <p class="hint" style="max-width:62ch"><strong>Studio preview build:</strong> images are painted in your browser as generative-art previews and videos play as animated previews. Photoreal AI images + downloadable MP4 switch on when a fal.ai key is connected (see “Go fully live” below).</p>
+    <div class="stats">
+      <div class="stat"><b id="statVideos">0 / 2</b><br><span data-i="statV">Free videos today</span></div>
+      <div class="stat"><b data-i="statImgB">Unlimited</b><br><span data-i="statImg">Images on Free</span></div>
+      <div class="stat"><b>8–15s</b><br><span data-i="statDur">Video length</span></div>
+      <div class="stat"><b>EN · اردو · हिन्दी</b><br><span data-i="statLang">Interface + voiceover</span></div>
+    </div>
+  </div>
+
+  <!-- STUDIO -->
+  <div class="studio" id="studio">
+    <div class="modes" role="tablist">
+      <button class="mode on" data-mode="t2v" data-i="mT2V">Text → Video</button>
+      <button class="mode" data-mode="img" data-i="mImg">Prompt → Image</button>
+      <button class="mode" data-mode="script" data-i="mScript">Script → Video</button>
+      <button class="mode" data-mode="upload" data-i="mUpload">Upload → Video</button>
+    </div>
+
+    <div id="panePrompt">
+      <label class="fl" for="prompt" data-i="promptL">Describe your scene</label>
+      <textarea id="prompt" placeholder="A golden sunset over Lahore rooftops, birds crossing the sky, cinematic light…"></textarea>
+      <div class="row" style="margin-top:8px">
+        <button class="btn ghost small" id="enhanceBtn" data-i="enhance">✦ Enhance prompt</button>
+        <span class="hint" id="enhanceNote"></span>
+      </div>
+    </div>
+
+    <div id="paneScript" class="hidden">
+      <label class="fl" for="script" data-i="scriptL">Script — one line = one scene (max 6)</label>
+      <textarea id="script" placeholder="A small robot wakes up in a green field&#10;It sees a butterfly for the first time&#10;It follows the butterfly to a shining lake"></textarea>
+    </div>
+
+    <div id="paneUpload" class="hidden">
+      <label class="fl" data-i="uploadL">Your photo (JPEG / PNG)</label>
+      <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp">
+      <p class="hint" data-i="uploadH">The photo stays in this tab — it is animated here, never uploaded to a server.</p>
+    </div>
+
+    <label class="fl" data-i="styleL">Style</label>
+    <div class="chips" id="styleChips"></div>
+
+    <div class="row">
+      <div><label class="fl" data-i="ratioL">Aspect ratio</label>
+        <div class="chips" id="ratioChips">
+          <button class="chip on" data-ratio="16/9">16:9</button><button class="chip" data-ratio="9/16">9:16</button><button class="chip" data-ratio="1/1">1:1</button>
+        </div></div>
+      <div><label class="fl" data-i="durL">Duration</label>
+        <div class="chips" id="durChips">
+          <button class="chip on" data-dur="8">8s</button><button class="chip" data-dur="10">10s</button><button class="chip" data-dur="15">15s</button>
+        </div></div>
+      <div><label class="fl" for="camSel" data-i="camL">Camera movement</label>
+        <select id="camSel"><option value="push">Push in</option><option value="pull">Pull out</option><option value="panl">Pan left</option><option value="panr">Pan right</option><option value="static">Static</option></select></div>
+    </div>
+
+    <div class="row">
+      <div><label class="fl" for="voiceLang" data-i="voiceL">Voiceover + subtitles</label>
+        <select id="voiceLang"><option value="off">Off</option><option value="en">English</option><option value="ur">اردو</option><option value="hi">हिन्दी</option></select></div>
+      <div><label class="fl" for="voiceText" data-i="voiceTextL">Narration line (optional)</label>
+        <input type="text" id="voiceText" placeholder="Leave empty to narrate the prompt"></div>
+    </div>
+
+    <div class="warn hidden" id="planWarn"></div>
+
+    <div class="row" style="margin-top:16px">
+      <button class="btn" id="genImageBtn" data-i="genImg">Generate image</button>
+      <button class="btn dark" id="genVideoBtn" data-i="genVid">Generate video</button>
+      <span class="hint" id="genStatus"></span>
+    </div>
+
+    <div class="stage">
+      <div class="frame" id="frame">
+        <div class="empty" id="frameEmpty" data-i="emptyStage">Your image & video preview appear here</div>
+        <canvas id="artCanvas" width="960" height="540" class="hidden"></canvas>
+        <img id="upImg" class="source hidden" alt="Uploaded photo preview">
+        <div class="meta-chips hidden" id="metaChips"></div>
+        <div class="subbar hidden" id="subBar"><span id="subText"></span></div>
+        <div class="wm hidden" id="wm">ROHAN AI</div>
+        <div class="progress hidden" id="progWrap"><i id="progBar"></i></div>
+      </div>
+      <div class="player-ctl hidden" id="playerCtl">
+        <button class="btn small dark" id="playBtn">▶ Play</button>
+        <button class="btn small ghost" id="replayBtn" data-i="replay">Replay</button>
+        <a class="btn small ghost" id="dlImg" download="rohan-ai-image.png" data-i="dlImg">Download image (PNG)</a>
+      </div>
+      <p class="hint" id="videoNote" style="margin-top:10px" data-i="videoNote">Videos play as animated previews in the studio. Downloadable MP4 export unlocks when the Kling engine (fal.ai) is connected.</p>
+    </div>
+  </div>
+
+  <!-- TEMPLATES -->
+  <section>
+    <h2 data-i="tplH">Start from a template</h2>
+    <p class="lead" data-i="tplP">One tap loads the prompt, ratio and camera move — edit anything before you generate.</p>
+    <div class="grid" id="tplGrid"></div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section>
+    <h2 data-i="projH">My projects</h2>
+    <p class="lead" data-i="projP">Projects from this session live here. Open one to load it back into the studio.</p>
+    <div class="grid" id="projGrid"><p class="hint" data-i="projEmpty">Nothing yet — generate your first image above.</p></div>
+  </section>
+
+  <!-- PRICING -->
+  <section>
+    <h2 data-i="priceH">Free for people. Premium for power.</h2>
+    <p class="lead" data-i="priceP">The freemium model keeps ROHAN AI free for everyone while premium users cover the generation cost.</p>
+    <div class="price">
+      <div class="card"><h3>FREE</h3><div class="amount">$0</div>
+        <ul><li data-i="f1">Images — free, unlimited</li><li data-i="f2">2 videos per day</li><li data-i="f3">Up to 8 seconds · 720p</li><li data-i="f4">ROHAN AI watermark</li><li data-i="f5">All styles, templates & 3 languages</li></ul>
+        <button class="btn ghost" data-plan="free" data-i="useFree">Use Free</button></div>
+      <div class="card"><h3>PREMIUM</h3><div class="amount">$9.99<span style="font-size:.9rem;color:var(--muted)">/mo</span></div>
+        <ul><li data-i="p1">Unlimited videos</li><li data-i="p2">Up to 15 seconds · 1080p</li><li data-i="p3">No watermark</li><li data-i="p4">Fast queue · Kling quality engine</li><li data-i="p5">Commercial use</li></ul>
+        <button class="btn" data-plan="premium" data-i="usePrem">Preview Premium</button></div>
+    </div>
+    <p class="hint" style="margin-top:10px" data-i="planNote">Plan switching here is a preview — no payment is charged in this demo build.</p>
+  </section>
+
+  <!-- PUBLISH -->
+  <section>
+    <h2 data-i="pubH">Publish it free — Vercel + Google</h2>
+    <p class="lead" data-i="pubP">This page is a single static file, ready for free hosting. Two steps put it on the open web and into Google Search.</p>
+    <p class="hint" style="max-width:65ch"><strong>Status:</strong> not yet deployed — the Vercel step needs your GitHub sign-in (github.com/rohantechofficial), which only you can complete. This build is the exact file that deploys; no changes are needed before importing it.</p>
+    <div class="grid">
+      <div class="card"><h3 data-i="pub1H">1 · Deploy on Vercel (free)</h3><ol class="steps"><li data-i="pub1a">Put this index.html in a GitHub repo</li><li data-i="pub1b">vercel.com → New Project → import the repo</li><li data-i="pub1c">Deploy — you get a free link like rohan-ai.vercel.app</li></ol><a href="https://vercel.com/new" target="_blank" rel="noopener" data-i="pub1Btn">Open Vercel deploy →</a></div>
+      <div class="card"><h3 data-i="pub2H">2 · Submit to Google</h3><ol class="steps"><li data-i="pub2a">Open Google Search Console, add the Vercel URL as a property</li><li data-i="pub2b">Verify ownership with the HTML tag method</li><li data-i="pub2c">Use “Request Indexing” — Google usually lists it in 2–7 days</li></ol><a href="https://search.google.com/search-console" target="_blank" rel="noopener" data-i="pub2Btn">Open Search Console →</a></div>
+      <div class="card"><h3 data-i="pub3H">3 · Go fully live (MP4)</h3><p data-i="pub3P">For downloadable MP4 videos, connect a fal.ai key (Flux images + Kling video) on the server side. Until then, images download as PNG and videos play as animated previews.</p></div>
+    </div>
+  </section>
+
+  <footer><span data-i="foot">ROHAN AI — built for creators. Images are generated in your browser as generative art previews; connect fal.ai for photoreal AI generation + MP4 export.</span></footer>
+</div>
+
+<div class="toast hidden" id="toast"></div>
+
+<script>
+(function(){
+"use strict";
+/* ---------- i18n ---------- */
+var T={
+en:{tagline:"Create. Imagine. Generate.",heroH:"Turn words into video.",heroP:"Type a prompt, ROHAN AI paints the image, then animates it into an 8–15 second video — with styles, camera movement, voiceover and subtitles. Free to start, no sign-up.",statV:"Free videos today",statImgB:"Unlimited",statImg:"Images on Free",statDur:"Video length",statLang:"Interface + voiceover",mT2V:"Text → Video",mImg:"Prompt → Image",mScript:"Script → Video",mUpload:"Upload → Video",promptL:"Describe your scene",enhance:"✦ Enhance prompt",scriptL:"Script — one line = one scene (max 6)",uploadL:"Your photo (JPEG / PNG)",uploadH:"The photo stays in this tab — it is animated here, never uploaded to a server.",styleL:"Style",ratioL:"Aspect ratio",durL:"Duration",camL:"Camera movement",voiceL:"Voiceover + subtitles",voiceTextL:"Narration line (optional)",genImg:"Generate image",genVid:"Generate video",emptyStage:"Your image & video preview appear here",replay:"Replay",dlImg:"Download image (PNG)",videoNote:"Videos play as animated previews in the studio. Downloadable MP4 export unlocks when the Kling engine (fal.ai) is connected.",tplH:"Start from a template",tplP:"One tap loads the prompt, ratio and camera move — edit anything before you generate.",projH:"My projects",projP:"Projects from this session live here. Open one to load it back into the studio.",projEmpty:"Nothing yet — generate your first image above.",priceH:"Free for people. Premium for power.",priceP:"The freemium model keeps ROHAN AI free for everyone while premium users cover the generation cost.",f1:"Images — free, unlimited",f2:"2 videos per day",f3:"Up to 8 seconds · 720p",f4:"ROHAN AI watermark",f5:"All styles, templates & 3 languages",useFree:"Use Free",p1:"Unlimited videos",p2:"Up to 15 seconds · 1080p",p3:"No watermark",p4:"Fast queue · Kling quality engine",p5:"Commercial use",usePrem:"Preview Premium",planNote:"Plan switching here is a preview — no payment is charged in this demo build.",pubH:"Publish it free — Vercel + Google",pubP:"This page is a single static file, ready for free hosting. Two steps put it on the open web and into Google Search.",pub1H:"1 · Deploy on Vercel (free)",pub1a:"Put this index.html in a GitHub repo",pub1b:"vercel.com → New Project → import the repo",pub1c:"Deploy — you get a free link like rohan-ai.vercel.app",pub1Btn:"Open Vercel deploy →",pub2H:"2 · Submit to Google",pub2a:"Open Google Search Console, add the Vercel URL as a property",pub2b:"Verify ownership with the HTML tag method",pub2c:"Use “Request Indexing” — Google usually lists it in 2–7 days",pub2Btn:"Open Search Console →",pub3H:"3 · Go fully live (MP4)",pub3P:"For downloadable MP4 videos, connect a fal.ai key (Flux images + Kling video) on the server side. Until then, images download as PNG and videos play as animated previews.",foot:"ROHAN AI — built for creators. Images are generated in your browser as generative art previews; connect fal.ai for photoreal AI generation + MP4 export."},
+ur:{tagline:"بنائیں۔ سوچیں۔ تخلیق کریں۔",heroH:"الفاظ کو ویڈیو میں بدلیں۔",heroP:"پرامپٹ لکھیں، ROHAN AI تصویر بناتا ہے، پھر اسے 8–15 سیکنڈ کی ویڈیو میں بدل دیتا ہے — اسٹائلز، کیمرہ موومنٹ، وائس اوور اور سب ٹائٹلز کے ساتھ۔ مفت آغاز، کوئی سائن اپ نہیں۔",statV:"آج کی مفت ویڈیوز",statImgB:"لامحدود",statImg:"مفت تصاویر",statDur:"ویڈیو کی لمبائی",statLang:"انٹرفیس + وائس اوور",mT2V:"ٹیکسٹ ← ویڈیو",mImg:"پرامپٹ ← تصویر",mScript:"اسکرپٹ ← ویڈیو",mUpload:"اپ لوڈ ← ویڈیو",promptL:"اپنا منظر بیان کریں",enhance:"✦ پرامپٹ بہتر کریں",scriptL:"اسکرپٹ — ایک لائن = ایک سین (زیادہ سے زیادہ 6)",uploadL:"آپ کی تصویر (JPEG / PNG)",uploadH:"تصویر اسی ٹیب میں رہتی ہے — یہیں اینیمیٹ ہوتی ہے، سرور پر اپ لوڈ نہیں ہوتی۔",styleL:"اسٹائل",ratioL:"تناسب",durL:"دورانیہ",camL:"کیمرہ موومنٹ",voiceL:"وائس اوور + سب ٹائٹلز",voiceTextL:"بیان کی لائن (اختیاری)",genImg:"تصویر بنائیں",genVid:"ویڈیو بنائیں",emptyStage:"آپ کی تصویر اور ویڈیو پریویو یہاں آئے گا",replay:"دوبارہ چلائیں",dlImg:"تصویر ڈاؤن لوڈ (PNG)",videoNote:"ویڈیوز اسٹوڈیو میں اینیمیٹڈ پریویو کے طور پر چلتی ہیں۔ MP4 ڈاؤن لوڈ Kling انجن (fal.ai) جڑنے پر کھلے گا۔",tplH:"ٹیمپلیٹ سے شروع کریں",tplP:"ایک ٹیپ سے پرامپٹ، تناسب اور کیمرہ لوڈ ہو جاتا ہے — بنانے سے پہلے کچھ بھی بدلیں۔",projH:"میرے پروجیکٹس",projP:"اس سیشن کے پروجیکٹس یہاں رہتے ہیں۔ کھول کر اسٹوڈیو میں واپس لادیں۔",projEmpty:"ابھی کچھ نہیں — اوپر اپنی پہلی تصویر بنائیں۔",priceH:"لوگوں کے لیے مفت۔ طاقت کے لیے پریمیم۔",priceP:"فریمیم ماڈل ROHAN AI کو سب کے لیے مفت رکھتا ہے جبکہ پریمیم صارفین لاگت پوری کرتے ہیں۔",f1:"تصاویر — مفت، لامحدود",f2:"روزانہ 2 ویڈیوز",f3:"8 سیکنڈ تک · 720p",f4:"ROHAN AI واٹر مارک",f5:"تمام اسٹائلز، ٹیمپلیٹس اور 3 زبانیں",useFree:"مفت استعمال کریں",p1:"لامحدود ویڈیوز",p2:"15 سیکنڈ تک · 1080p",p3:"کوئی واٹر مارک نہیں",p4:"تیز قطار · Kling کوالٹی انجن",p5:"تجارتی استعمال",usePrem:"پریمیم پریویو",planNote:"پلان بدلنا یہاں صرف پریویو ہے — اس ڈیمو میں کوئی ادائیگی نہیں کٹتی۔",pubH:"مفت شائع کریں — Vercel + Google",pubP:"یہ صفحہ ایک اسٹیٹک فائل ہے، مفت ہوسٹنگ کے لیے تیار۔ دو مراحل میں یہ ویب اور Google سرچ میں آ جاتا ہے۔",pub1H:"1 · Vercel پر ڈپلائے (مفت)",pub1a:"یہ index.html کسی GitHub repo میں رکھیں",pub1b:"vercel.com ← New Project ← repo امپورٹ کریں",pub1c:"ڈپلائے کریں — مفت لنک ملے گا جیسے rohan-ai.vercel.app",pub1Btn:"Vercel ڈپلائے کھولیں ←",pub2H:"2 · Google میں جمع کریں",pub2a:"Google Search Console کھولیں، Vercel URL پراپرٹی شامل کریں",pub2b:"HTML ٹیگ طریقے سے ملکیت تصدیق کریں",pub2c:"“Request Indexing” استعمال کریں — Google عام طور پر 2–7 دن میں لسٹ کرتا ہے",pub2Btn:"Search Console کھولیں ←",pub3H:"3 · مکمل لائیو (MP4)",pub3P:"MP4 ڈاؤن لوڈ کے لیے سرور سائیڈ پر fal.ai کلید جوڑیں (Flux تصاویر + Kling ویڈیو)۔ تب تک تصاویر PNG ڈاؤن لوڈ ہوتی ہیں اور ویڈیوز اینیمیٹڈ پریویو چلتی ہیں۔",foot:"ROHAN AI — تخلیق کاروں کے لیے۔ تصاویر آپ کے براؤزر میں جنریٹو آرٹ پریویو کے طور پر بنتی ہیں؛ فوٹو ریئل AI اور MP4 کے لیے fal.ai جوڑیں۔"},
+hi:{tagline:"बनाएँ। सोचें। रचें।",heroH:"शब्दों को वीडियो में बदलें।",heroP:"प्रॉम्प्ट लिखें, ROHAN AI तस्वीर बनाता है, फिर उसे 8–15 सेकंड के वीडियो में बदल देता है — स्टाइल, कैमरा मूवमेंट, वॉइसओवर और सबटाइटल के साथ। मुफ़्त शुरुआत, कोई साइन-अप नहीं।",statV:"आज के मुफ़्त वीडियो",statImgB:"असीमित",statImg:"मुफ़्त तस्वीरें",statDur:"वीडियो की लंबाई",statLang:"इंटरफ़ेस + वॉइसओवर",mT2V:"टेक्स्ट → वीडियो",mImg:"प्रॉम्प्ट → तस्वीर",mScript:"स्क्रिप्ट → वीडियो",mUpload:"अपलोड → वीडियो",promptL:"अपना दृश्य बताएँ",enhance:"✦ प्रॉम्प्ट बेहतर करें",scriptL:"स्क्रिप्ट — एक लाइन = एक सीन (अधिकतम 6)",uploadL:"आपकी फ़ोटो (JPEG / PNG)",uploadH:"फ़ोटो इसी टैब में रहती है — यहीं एनिमेट होती है, सर्वर पर अपलोड नहीं होती।",styleL:"स्टाइल",ratioL:"आस्पेक्ट रेशियो",durL:"अवधि",camL:"कैमरा मूवमेंट",voiceL:"वॉइसओवर + सबटाइटल",voiceTextL:"नैरेशन लाइन (वैकल्पिक)",genImg:"तस्वीर बनाएँ",genVid:"वीडियो बनाएँ",emptyStage:"आपकी तस्वीर और वीडियो प्रीव्यू यहाँ आएगा",replay:"फिर से चलाएँ",dlImg:"तस्वीर डाउनलोड (PNG)",videoNote:"वीडियो स्टूडियो में एनिमेटेड प्रीव्यू के रूप में चलते हैं। MP4 डाउनलोड Kling इंजन (fal.ai) जुड़ने पर खुलेगा।",tplH:"टेम्पलेट से शुरू करें",tplP:"एक टैप से प्रॉम्प्ट, रेशियो और कैमरा लोड हो जाता है — बनाने से पहले कुछ भी बदलें।",projH:"मेरे प्रोजेक्ट",projP:"इस सेशन के प्रोजेक्ट यहाँ रहते हैं। खोलकर स्टूडियो में वापस लोड करें।",projEmpty:"अभी कुछ नहीं — ऊपर अपनी पहली तस्वीर बनाएँ।",priceH:"लोगों के लिए मुफ़्त। पावर के लिए प्रीमियम।",priceP:"फ़्रीमियम मॉडल ROHAN AI को सबके लिए मुफ़्त रखता है जबकि प्रीमियम यूज़र लागत पूरी करते हैं।",f1:"तस्वीरें — मुफ़्त, असीमित",f2:"रोज़ 2 वीडियो",f3:"8 सेकंड तक · 720p",f4:"ROHAN AI वॉटरमार्क",f5:"सभी स्टाइल, टेम्पलेट और 3 भाषाएँ",useFree:"मुफ़्त इस्तेमाल करें",p1:"असीमित वीडियो",p2:"15 सेकंड तक · 1080p",p3:"कोई वॉटरमार्क नहीं",p4:"तेज़ कतार · Kling क्वालिटी इंजन",p5:"व्यावसायिक उपयोग",usePrem:"प्रीमियम प्रीव्यू",planNote:"यहाँ प्लान बदलना सिर्फ़ प्रीव्यू है — इस डेमो में कोई भुगतान नहीं कटता।",pubH:"मुफ़्त पब्लिश करें — Vercel + Google",pubP:"यह पेज एक स्टैटिक फ़ाइल है, मुफ़्त होस्टिंग के लिए तैयार। दो चरणों में यह वेब और Google Search में आ जाता है।",pub1H:"1 · Vercel पर डिप्लॉय (मुफ़्त)",pub1a:"यह index.html किसी GitHub repo में रखें",pub1b:"vercel.com → New Project → repo इम्पोर्ट करें",pub1c:"डिप्लॉय करें — मुफ़्त लिंक मिलेगा जैसे rohan-ai.vercel.app",pub1Btn:"Vercel डिप्लॉय खोलें →",pub2H:"2 · Google में सबमिट करें",pub2a:"Google Search Console खोलें, Vercel URL प्रॉपर्टी जोड़ें",pub2b:"HTML टैग तरीके से स्वामित्व सत्यापित करें",pub2c:"“Request Indexing” इस्तेमाल करें — Google आमतौर पर 2–7 दिन में लिस्ट करता है",pub2Btn:"Search Console खोलें →",pub3H:"3 · पूरी तरह लाइव (MP4)",pub3P:"MP4 डाउनलोड के लिए सर्वर साइड पर fal.ai कुंजी जोड़ें (Flux तस्वीरें + Kling वीडियो)। तब तक तस्वीरें PNG डाउनलोड होती हैं और वीडियो एनिमेटेड प्रीव्यू चलते हैं।",foot:"ROHAN AI — क्रिएटर्स के लिए। तस्वीरें आपके ब्राउज़र में जेनरेटिव आर्ट प्रीव्यू के रूप में बनती हैं; फ़ोटोरियल AI और MP4 के लिए fal.ai जोड़ें।"}
+};
+var lang="en";
+function applyLang(l){lang=l;var d=T[l];document.documentElement.lang=(l==="ur"?"ur":l==="hi"?"hi":"en");document.documentElement.dir=(l==="ur"?"rtl":"ltr");
+ document.querySelectorAll("[data-i]").forEach(function(el){var k=el.getAttribute("data-i");if(d[k])el.textContent=d[k];});
+ document.querySelectorAll(".seg button").forEach(function(b){b.classList.toggle("on",b.getAttribute("data-lang")===l);});}
+document.querySelectorAll(".seg button").forEach(function(b){b.addEventListener("click",function(){applyLang(b.getAttribute("data-lang"));});});
+
+/* ---------- state ---------- */
+var plan="free", videosToday=0, mode="t2v", style="Cinematic", ratio="16/9", dur=8;
+var projects=[], currentArt=null, currentScenes=null, hasImage=false, playing=false, rafId=null, playStart=0, uploadedURL=null;
+var $=function(id){return document.getElementById(id);};
+function toast(msg){var t=$("toast");t.textContent=msg;t.classList.remove("hidden");setTimeout(function(){t.classList.add("hidden");},3200);}
+
+/* styles */
+var STYLES=["Cinematic","Anime","3D Render","Watercolor","Neon","Vintage"];
+var sc=$("styleChips");
+STYLES.forEach(function(s){var b=document.createElement("button");b.className="chip"+(s===style?" on":"");b.textContent=s;b.addEventListener("click",function(){style=s;sc.querySelectorAll(".chip").forEach(function(c){c.classList.toggle("on",c.textContent===s);});});sc.appendChild(b);});
+
+/* templates */
+var TPLS=[
+ {n:"Social Reel",d:"Vertical, fast, made for Reels & Shorts.",p:"A young creator dancing with neon city lights behind, energetic, vertical reel style",r:"9/16",cam:"push"},
+ {n:"News Studio",d:"Clean anchor-desk look for news updates.",p:"A modern news studio desk, world map screen behind, blue studio light, professional broadcast look",r:"16/9",cam:"static"},
+ {n:"Story Time",d:"Warm storybook scenes for narration.",p:"A cozy village at golden hour, a child flying a kite, warm storybook illustration",r:"16/9",cam:"panr"},
+ {n:"Product Ad",d:"Hero product shot with studio light.",p:"A premium sneaker on a rotating podium, studio spotlight, clean advertising background",r:"1/1",cam:"panl"}];
+var tg=$("tplGrid");
+TPLS.forEach(function(t){var c=document.createElement("div");c.className="card";c.innerHTML="<h3></h3><p></p>";c.querySelector("h3").textContent=t.n;c.querySelector("p").textContent=t.d;
+ var b=document.createElement("button");b.className="btn small dark";b.textContent="Use template";b.addEventListener("click",function(){setMode("t2v");$("prompt").value=t.p;setRatio(t.r);$("camSel").value=t.cam;$("studio").scrollIntoView({behavior:"smooth"});toast("Template loaded: "+t.n);});c.appendChild(b);tg.appendChild(c);});
+
+/* modes */
+function setMode(m){mode=m;document.querySelectorAll(".mode").forEach(function(x){x.classList.toggle("on",x.getAttribute("data-mode")===m);});
+ $("panePrompt").classList.toggle("hidden",m==="script"||m==="upload");
+ $("paneScript").classList.toggle("hidden",m!=="script");
+ $("paneUpload").classList.toggle("hidden",m!=="upload");
+ $("genImageBtn").classList.toggle("hidden",m==="upload");}
+document.querySelectorAll(".mode").forEach(function(x){x.addEventListener("click",function(){setMode(x.getAttribute("data-mode"));});});
+
+/* ratio + duration */
+function setRatio(r){ratio=r;document.querySelectorAll("#ratioChips .chip").forEach(function(c){c.classList.toggle("on",c.getAttribute("data-ratio")===r);});
+ var f=$("frame");f.classList.toggle("r916",r==="9/16");f.classList.toggle("r11",r==="1/1");sizeCanvas();}
+document.querySelectorAll("#ratioChips .chip").forEach(function(c){c.addEventListener("click",function(){setRatio(c.getAttribute("data-ratio"));});});
+function refreshDurLocks(){document.querySelectorAll("#durChips .chip").forEach(function(c){var d=+c.getAttribute("data-dur");var locked=(plan==="free"&&d>8);c.classList.toggle("locked",locked);c.classList.toggle("on",d===dur);});}
+document.querySelectorAll("#durChips .chip").forEach(function(c){c.addEventListener("click",function(){var d=+c.getAttribute("data-dur");
+ if(plan==="free"&&d>8){showWarn("Free plan caps video at 8 seconds. Switch to Premium preview for 10s / 15s.");return;}
+ dur=d;refreshDurLocks();});});
+function showWarn(m){var w=$("planWarn");w.textContent=m;w.classList.remove("hidden");setTimeout(function(){w.classList.add("hidden");},5000);}
+
+/* plan */
+function setPlan(p){plan=p;$("planPill").textContent=p==="premium"?"PREMIUM":"FREE";$("planPill").classList.toggle("prem",p==="premium");
+ $("statVideos").textContent=p==="premium"?"∞":(videosToday+" / 2");refreshDurLocks();if(p==="free"&&dur>8){dur=8;refreshDurLocks();}
+ toast(p==="premium"?"Premium preview ON — 15s, 1080p, no watermark":"Free plan — 2 videos/day, 8s, 720p, watermark");}
+$("planPill").addEventListener("click",function(){setPlan(plan==="free"?"premium":"free");});
+document.querySelectorAll("[data-plan]").forEach(function(b){b.addEventListener("click",function(){setPlan(b.getAttribute("data-plan"));$("studio").scrollIntoView({behavior:"smooth"});});});
+
+/* enhance */
+$("enhanceBtn").addEventListener("click",function(){var v=$("prompt").value.trim();if(!v){toast("Write a prompt first");return;}
+ var add=", rich detail, "+style.toLowerCase()+" style, dramatic lighting, ultra-detailed, 8k composition";
+ if(v.indexOf("rich detail")<0)$("prompt").value=v+add;
+ $("enhanceNote").textContent="Enhanced ✓ — review it, then generate.";});
+
+/* ---------- generative art (browser-side preview engine) ---------- */
+function hash(s){var h=2166136261;for(var i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}return h>>>0;}
+function rng(seed){var a=seed;return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+var PALETTES={Cinematic:["#1c2b3a","#c96f2e","#e9c46a","#f4f1de"],Anime:["#ffd6e8","#7bdff2","#b2f7ef","#f7aef8"],"3D Render":["#232946","#eebbc3","#b8c1ec","#fffffe"],Watercolor:["#f6e7c8","#a8c3a0","#7fa6c9","#e8a2a2"],Neon:["#0d0221","#ff2a6d","#05d9e8","#f9f002"],Vintage:["#e8dcc3","#b08968","#6f4e37","#3d405b"]};
+function sizeCanvas(){var c=$("artCanvas");if(ratio==="9/16"){c.width=540;c.height=960;}else if(ratio==="1/1"){c.width=760;c.height=760;}else{c.width=960;c.height=540;}}
+sizeCanvas();
+function paintArt(canvas,promptText,sty){var ctx=canvas.getContext("2d"),W=canvas.width,H=canvas.height;var r=rng(hash(promptText+"|"+sty));var pal=PALETTES[sty]||PALETTES.Cinematic;
+ var g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,pal[0]);g.addColorStop(1,pal[3]);ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+ /* sun/moon */ctx.beginPath();ctx.arc(W*(0.25+r()*0.5),H*0.3,W*0.09,0,7);ctx.fillStyle=pal[2];ctx.globalAlpha=.9;ctx.fill();ctx.globalAlpha=1;
+ /* mountains layers */for(var L=0;L<3;L++){ctx.beginPath();ctx.moveTo(0,H);var base=H*(0.55+L*0.13);for(var x=0;x<=W;x+=W/8){ctx.lineTo(x,base-r()*(H*0.16)-L*8);}ctx.lineTo(W,H);ctx.closePath();ctx.fillStyle=pal[(L+1)%pal.length];ctx.globalAlpha=0.55+L*0.18;ctx.fill();}
+ ctx.globalAlpha=1;/* birds */ctx.strokeStyle="rgba(0,0,0,.55)";ctx.lineWidth=Math.max(2,W/300);for(var i=0;i<6;i++){var bx=W*(0.1+r()*0.75),by=H*(0.12+r()*0.2),s=8+r()*10;ctx.beginPath();ctx.moveTo(bx-s,by);ctx.quadraticCurveTo(bx-s/2,by-s,bx,by);ctx.quadraticCurveTo(bx+s/2,by-s,bx+s,by);ctx.stroke();}
+ /* ground glow + title strip */ctx.fillStyle="rgba(0,0,0,.28)";ctx.fillRect(0,H-64,W,64);ctx.fillStyle="#fff";ctx.font="600 "+Math.round(W/34)+"px Sora, sans-serif";ctx.textAlign="center";var t=promptText.length>52?promptText.slice(0,52)+"…":promptText;ctx.fillText(t,W/2,H-24);
+ if(sty==="Neon"){ctx.shadowColor=pal[1];ctx.shadowBlur=30;ctx.strokeStyle=pal[2];ctx.lineWidth=3;ctx.strokeRect(14,14,W-28,H-28);ctx.shadowBlur=0;}
+ if(sty==="Vintage"){ctx.fillStyle="rgba(120,80,20,.14)";ctx.fillRect(0,0,W,H);}
+ return canvas;}
+function showArt(){hasImage=true;$("frameEmpty").classList.add("hidden");$("upImg").classList.add("hidden");$("artCanvas").classList.remove("hidden");$("playerCtl").classList.remove("hidden");$("dlImg").href=$("artCanvas").toDataURL("image/png");}
+
+/* generate image */
+$("genImageBtn").addEventListener("click",function(){
+ if(mode==="script"){genScriptScenes(true);return;}
+ var p=$("prompt").value.trim()||"A beautiful landscape at golden hour";
+ $("genStatus").textContent="Painting…";setTimeout(function(){paintArt($("artCanvas"),p,style);showArt();currentScenes=null;$("genStatus").textContent="Image ready ✓";addProject(p,null);},450);});
+function genScriptScenes(onlyImage){var lines=$("script").value.split("\n").map(function(s){return s.trim();}).filter(Boolean).slice(0,6);
+ if(!lines.length){toast("Write at least one script line");return null;}
+ currentScenes=lines;paintArt($("artCanvas"),lines[0],style);showArt();$("genStatus").textContent="Scene 1 of "+lines.length+" ready ✓";if(!onlyImage===false){}
+ addProject("Script: "+lines[0],lines);return lines;}
+
+/* upload */
+$("fileInput").addEventListener("change",function(e){var f=e.target.files[0];if(!f)return;if(uploadedURL)URL.revokeObjectURL(uploadedURL);
+ uploadedURL=URL.createObjectURL(f);var im=$("upImg");im.src=uploadedURL;im.onload=function(){hasImage=true;currentScenes=null;$("frameEmpty").classList.add("hidden");$("artCanvas").classList.add("hidden");im.classList.remove("hidden");$("playerCtl").classList.remove("hidden");$("dlImg").removeAttribute("href");toast("Photo loaded — now Generate video");addProject("Uploaded photo",null);};});
+
+/* ---------- video preview player ---------- */
+var animT0=0;
+function speak(text,vl){if(vl==="off"||!("speechSynthesis" in window))return;try{speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(text);u.lang=vl==="ur"?"ur-PK":vl==="hi"?"hi-IN":"en-US";u.rate=.95;speechSynthesis.speak(u);}catch(e){}}
+function stopPlay(){playing=false;if(rafId)cancelAnimationFrame(rafId);$("playBtn").textContent="▶ Play";if("speechSynthesis" in window)speechSynthesis.cancel();}
+function startPlay(){if(!hasImage){toast("Generate an image first");return;}
+ var total=dur*1000;playing=true;$("playBtn").textContent="⏸ Pause";$("progWrap").classList.remove("hidden");
+ var vl=$("voiceLang").value;var scenes=(mode==="script"&&currentScenes)?currentScenes:null;
+ var narr=$("voiceText").value.trim()||(scenes?scenes.join(". "):$("prompt").value.trim());
+ speak(narr,vl);
+ var sceneIdx=-1;animT0=performance.now();
+ $("wm").classList.toggle("hidden",plan==="premium");
+ var mc=$("metaChips");mc.classList.remove("hidden");mc.innerHTML="";[plan==="premium"?"1080p":"720p",dur+"s",$("camSel").selectedOptions[0].textContent,style].forEach(function(s){var sp=document.createElement("span");sp.textContent=s;mc.appendChild(sp);});
+ var srcEl=$("artCanvas").classList.contains("hidden")?$("upImg"):$("artCanvas");
+ function frame(now){if(!playing)return;var el=now-animT0;var pr=Math.min(1,el/total);$("progBar").style.width=(pr*100)+"%";
+   if(scenes){var idx=Math.min(scenes.length-1,Math.floor(pr*scenes.length));if(idx!==sceneIdx){sceneIdx=idx;paintArt($("artCanvas"),scenes[idx],style);$("subBar").classList.remove("hidden");$("subText").textContent=scenes[idx];}}
+   else if(vl!=="off"){var nt=$("voiceText").value.trim()||$("prompt").value.trim();if(nt){$("subBar").classList.remove("hidden");$("subText").textContent=nt;}}
+   /* camera transform on wrapper contents */
+   var cam=$("camSel").value,z=1,x=0;var e=pr;
+   if(cam==="push")z=1+e*0.25;else if(cam==="pull")z=1.25-e*0.25;else if(cam==="panl")x=-e*6;else if(cam==="panr")x=e*6;
+   srcEl.style.transform="scale("+z+") translateX("+x+"%)";
+   if(pr<1){rafId=requestAnimationFrame(frame);}else{stopPlay();$("progBar").style.width="0%";srcEl.style.transform="";}}
+ rafId=requestAnimationFrame(frame);}
+$("playBtn").addEventListener("click",function(){playing?stopPlay():startPlay();});
+$("replayBtn").addEventListener("click",function(){stopPlay();startPlay();});
+
+$("genVideoBtn").addEventListener("click",function(){
+ if(plan==="free"&&videosToday>=2){showWarn("Free limit reached — 2 videos used today. Switch to Premium preview for unlimited.");return;}
+ if(mode==="upload"&&!uploadedURL){toast("Choose a photo first");return;}
+ if(mode==="script"&&!currentScenes){if(!genScriptScenes(false))return;}
+ if(!hasImage){if(mode!=="script"){var p=$("prompt").value.trim()||"A beautiful landscape at golden hour";paintArt($("artCanvas"),p,style);showArt();}}
+ videosToday++;$("statVideos").textContent=plan==="premium"?"∞":(videosToday+" / 2");
+ $("genStatus").textContent="Video ready — playing preview ✓";startPlay();});
+
+/* projects */
+function addProject(title,scenes){var thumb=null;try{thumb=$("artCanvas").classList.contains("hidden")?uploadedURL:$("artCanvas").toDataURL("image/png");}catch(e){}
+ projects.unshift({title:title,thumb:thumb,style:style,ratio:ratio,dur:dur,scenes:scenes});renderProjects();}
+function renderProjects(){var g=$("projGrid");g.innerHTML="";if(!projects.length){g.innerHTML='<p class="hint">Nothing yet — generate your first image above.</p>';return;}
+ projects.forEach(function(pr,i){var c=document.createElement("div");c.className="card";
+  if(pr.thumb){var im=document.createElement("img");im.className="proj-thumb";im.src=pr.thumb;im.alt=pr.title;c.appendChild(im);}
+  var h=document.createElement("h3");h.textContent=pr.title.length>44?pr.title.slice(0,44)+"…":pr.title;c.appendChild(h);
+  var p=document.createElement("p");p.textContent=pr.style+" · "+pr.ratio+" · "+pr.dur+"s";c.appendChild(p);
+  var row=document.createElement("div");row.className="row";
+  var open=document.createElement("button");open.className="btn small dark";open.textContent="Open";open.addEventListener("click",function(){setRatio(pr.ratio);if(pr.scenes){setMode("script");$("script").value=pr.scenes.join("\n");currentScenes=pr.scenes;paintArt($("artCanvas"),pr.scenes[0],pr.style);}else if(pr.thumb&&pr.title==="Uploaded photo"){toast("Re-select the photo in Upload mode to animate it again");setMode("upload");return;}else{$("prompt").value=pr.title;paintArt($("artCanvas"),pr.title,pr.style);}showArt();$("studio").scrollIntoView({behavior:"smooth"});});
+  var del=document.createElement("button");del.className="btn small ghost";del.textContent="Delete";del.addEventListener("click",function(){projects.splice(i,1);renderProjects();});
+  row.appendChild(open);row.appendChild(del);c.appendChild(row);g.appendChild(c);});}
+
+refreshDurLocks();
+})();
+</script>
+</body>
+</html>
